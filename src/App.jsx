@@ -16,25 +16,34 @@ const TopBar = ({ theme, toggleTheme, searchQuery, setSearchQuery }) => {
   return (
     <header className="topbar">
       <div className="search-box">
-        <Search size={18} style={{ color: 'var(--text-muted)' }} />
-        <input 
-          type="text" 
-          placeholder="Search tools (e.g. PDF, Image, Resizer)..."
+        <Search size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+        <input
+          type="text"
+          placeholder="Search tools..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <button className="theme-toggle-btn" onClick={toggleTheme} title="Toggle Theme (Dark / Light)">
-          {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <button className="theme-toggle-btn" onClick={toggleTheme} title="Toggle theme">
+          {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
         </button>
 
-        <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--accent-gradient)', cursor: 'pointer', boxShadow: 'var(--shadow-sm)' }}></div>
+        {/* Avatar */}
+        <div style={{
+          width: '36px', height: '36px', borderRadius: '50%',
+          background: 'var(--accent-gradient)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: 'pointer', fontSize: '0.82rem', fontWeight: '800', color: '#fff',
+          boxShadow: 'var(--shadow-glow)',
+          flexShrink: 0,
+        }}>S</div>
       </div>
     </header>
   );
 };
+
 
 function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('nexus_theme') || 'light');
