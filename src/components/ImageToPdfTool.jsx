@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { UploadCloud, FileImage, Download, RefreshCw, Layers, ArrowUp, ArrowDown, Trash2, FileText } from 'lucide-react';
+import toast from 'react-hot-toast';
+import SEOHead from './SEOHead';
 
 const ImageToPdfTool = () => {
   const [images, setImages] = useState([]);
@@ -11,6 +13,9 @@ const ImageToPdfTool = () => {
 
   const handleFiles = (files) => {
     const validImages = Array.from(files).filter(f => f.type.startsWith('image/'));
+    const invalidCount = Array.from(files).length - validImages.length;
+    if (invalidCount > 0) toast.error(`${invalidCount} file(s) skipped — only images are supported.`);
+    if (validImages.length === 0) return;
     const newItems = validImages.map((file, index) => ({
       id: `${Date.now()}-${index}-${file.name}`,
       file,
@@ -47,6 +52,7 @@ const ImageToPdfTool = () => {
   const generatePdf = async () => {
     if (images.length === 0) return;
     setIsProcessing(true);
+    const toastId = toast.loading('Generating PDF...');
 
     try {
       const pdfDoc = await PDFDocument.create();
@@ -112,9 +118,10 @@ const ImageToPdfTool = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      toast.success('PDF generated and downloaded!', { id: toastId });
     } catch (err) {
       console.error('PDF Generation error:', err);
-      alert('Failed to generate PDF. Make sure all images are valid JPG/PNG files.');
+      toast.error('Failed to generate PDF. Make sure all images are valid JPG/PNG files.', { id: toastId });
     } finally {
       setIsProcessing(false);
     }
@@ -122,6 +129,11 @@ const ImageToPdfTool = () => {
 
   return (
     <div className="animate-fade-in tool-container">
+      <SEOHead
+        title="Images to PDF Converter - Combine Multiple Images into PDF Free"
+        description="Convert multiple JPG, PNG images into a single professional PDF document online for free. Supports A4 and custom page sizes. Works entirely in your browser."
+        keywords="image to pdf, jpg to pdf, png to pdf, combine images pdf, photos to pdf, convert images to pdf online free"
+      />
       <div>
         <span className="tool-header-badge">
           <FileImage size={14} /> Image to PDF Converter

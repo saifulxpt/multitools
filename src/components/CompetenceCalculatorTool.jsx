@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './CompetenceCalculatorTool.css';
 import { Calculator } from 'lucide-react';
+import toast from 'react-hot-toast';
+import SEOHead from './SEOHead';
 
 const CompetenceCalculatorTool = () => {
   const [total, setTotal] = useState('');
@@ -14,12 +16,12 @@ const CompetenceCalculatorTool = () => {
     const passedNum = parseFloat(passed);
 
     if (isNaN(totalNum) || isNaN(passedNum) || totalNum <= 0) {
-      alert('Please enter valid numbers. Total must be greater than 0.');
+      toast.error('Please enter valid numbers. Total must be greater than 0.');
       return;
     }
 
     if (passedNum > totalNum) {
-      alert('Passed number cannot be greater than the total number.');
+      toast.error('Passed number cannot be greater than the total number.');
       return;
     }
 
@@ -45,6 +47,11 @@ const CompetenceCalculatorTool = () => {
 
   return (
     <div className="tool-container">
+      <SEOHead
+        title="Competence Calculator - Pass Percentage Calculator Free"
+        description="Calculate pass percentage and competence rate instantly online for free. Enter total and passed students to get instant results with performance rating."
+        keywords="competence calculator, pass percentage calculator, student percentage, passing rate, result calculator"
+      />
       <div className="tool-header">
         <div className="tool-icon-wrapper">
           <Calculator size={32} />

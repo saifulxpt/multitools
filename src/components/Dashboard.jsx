@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Image, FileImage, Layers, Minimize2, UserCheck, ArrowRight, FileArchive, Calculator } from 'lucide-react';
+import SEOHead from './SEOHead';
 
 const availableTools = [
   {
@@ -79,6 +80,11 @@ const Dashboard = ({ searchQuery = '' }) => {
 
   return (
     <div className="animate-fade-in">
+      <SEOHead
+        title="Multi-Tools Suite - Free PDF & Image Tools Online"
+        description="Free online tools for PDF and image processing. Convert PDF to image, compress PDFs, merge & split PDFs, compress images, resize passport photos — all in your browser, no upload needed."
+        keywords="pdf tools online, image compressor, pdf compressor, pdf to image, passport photo resize, free online tools, image to pdf"
+      />
       <div style={{ marginBottom: '32px' }}>
         <h2 className="page-title text-gradient" style={{ fontSize: '2rem', marginBottom: '8px' }}>Multi-Tool Suite</h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>Select a tool below to process your files securely in real-time.</p>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { PDFDocument, degrees } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 import { UploadCloud, FileText, Download, RefreshCw, Layers, ArrowLeft, ArrowRight, Trash2, RotateCw, CheckSquare, Square, Scissors, GripVertical } from 'lucide-react';
+import toast from 'react-hot-toast';
+import SEOHead from './SEOHead';
 
 // Configure PDF.js worker for local Vite
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
@@ -32,6 +34,8 @@ const PdfMergeSplitTool = () => {
   // --- PDF ORGANIZER LOGIC ---
   const handleAddPdfs = async (files) => {
     const validFiles = Array.from(files).filter(f => f.type === 'application/pdf' || f.name.endsWith('.pdf'));
+    const invalidCount = Array.from(files).length - validFiles.length;
+    if (invalidCount > 0) toast.error(`${invalidCount} non-PDF file(s) were skipped.`);
     if (validFiles.length === 0) return;
 
     setIsLoadingPages(true);
@@ -77,7 +81,7 @@ const PdfMergeSplitTool = () => {
       setPagesList(prev => [...prev, ...newPages]);
     } catch (err) {
       console.error('Error loading PDF pages:', err);
-      alert('Error loading PDF files. Please ensure files are not encrypted.');
+      toast.error('Error loading PDF files. Please ensure files are not encrypted.');
     } finally {
       setIsLoadingPages(false);
     }
@@ -136,11 +140,12 @@ const PdfMergeSplitTool = () => {
   const exportOrganizedPdf = async () => {
     const activePages = pagesList.filter(p => p.selected);
     if (activePages.length === 0) {
-      alert('Please keep at least 1 page selected.');
+      toast.error('Please keep at least 1 page selected.');
       return;
     }
 
     setIsExporting(true);
+    const toastId = toast.loading('Building your PDF...');
 
     try {
       const mergedPdf = await PDFDocument.create();
@@ -172,9 +177,10 @@ const PdfMergeSplitTool = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      toast.success(`PDF with ${activePages.length} page(s) downloaded!`, { id: toastId });
     } catch (err) {
       console.error('Export error:', err);
-      alert('Failed to export PDF.');
+      toast.error('Failed to export PDF.', { id: toastId });
     } finally {
       setIsExporting(false);
     }
@@ -187,7 +193,10 @@ const PdfMergeSplitTool = () => {
 
   // --- RANGE SPLIT LOGIC ---
   const handleSplitFile = async (file) => {
-    if (!file || !file.name.endsWith('.pdf')) return;
+    if (!file || !file.name.endsWith('.pdf')) {
+      toast.error('Please select a valid PDF file.');
+      return;
+    }
     setSplitFile(file);
     try {
       const bytes = await file.arrayBuffer();
@@ -196,9 +205,10 @@ const PdfMergeSplitTool = () => {
       const total = pdf.getPageCount();
       setNumPages(total);
       setSelectedPages(`1-${total}`);
+      toast.success(`Loaded PDF with ${total} pages.`);
     } catch (err) {
       console.error('Failed to load PDF for split:', err);
-      alert('Could not read PDF file.');
+      toast.error('Could not read PDF file. It may be encrypted.');
     }
   };
 
@@ -229,7 +239,7 @@ const PdfMergeSplitTool = () => {
 
       const indices = Array.from(pageNumbers).sort((a, b) => a - b);
       if (indices.length === 0) {
-        alert('Invalid page range selected.');
+        toast.error('Invalid page range. Please check your input.');
         setIsSplitting(false);
         return;
       }
@@ -246,9 +256,10 @@ const PdfMergeSplitTool = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      toast.success(`${indices.length} page(s) extracted and downloaded!`);
     } catch (err) {
       console.error('Split error:', err);
-      alert('Error extracting PDF pages.');
+      toast.error('Error extracting PDF pages.');
     } finally {
       setIsSplitting(false);
     }
@@ -256,6 +267,11 @@ const PdfMergeSplitTool = () => {
 
   return (
     <div className="animate-fade-in tool-container">
+      <SEOHead
+        title="PDF Merge & Split - Organize, Combine and Extract PDF Pages Free"
+        description="Merge multiple PDF files, split PDFs, extract page ranges, reorder and rotate pages online for free. Drag & drop page organizer works entirely in your browser."
+        keywords="pdf merge, pdf split, combine pdf, extract pdf pages, pdf organizer, merge pdf online free, split pdf pages"
+      />
       <div>
         <span className="tool-header-badge">
           <Layers size={14} /> PDF Studio & Drag Page Organizer

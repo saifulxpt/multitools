@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
 import { UploadCloud, FileText, Settings, Image as ImageIcon, Download, RefreshCw, Layers, Eye, X } from 'lucide-react';
+import toast from 'react-hot-toast';
+import SEOHead from './SEOHead';
 
 // Configure pdfjs worker for Vite
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
@@ -43,7 +45,7 @@ const PdfToImageTool = () => {
         setConvertedImages([]);
         setErrorMsg(null);
       } else {
-        setErrorMsg('Please upload a valid PDF file.');
+        toast.error('Please upload a valid PDF file.');
       }
     }
   };
@@ -57,7 +59,7 @@ const PdfToImageTool = () => {
         setConvertedImages([]);
         setErrorMsg(null);
       } else {
-        setErrorMsg('Please upload a valid PDF file.');
+        toast.error('Please upload a valid PDF file.');
       }
     }
   };
@@ -94,6 +96,7 @@ const PdfToImageTool = () => {
     setProgress(0);
     setConvertedImages([]);
     setErrorMsg(null);
+    const toastId = toast.loading('Converting PDF pages to images...');
 
     try {
       const arrayBuffer = await selectedFile.arrayBuffer();
@@ -151,9 +154,12 @@ const PdfToImageTool = () => {
       }
 
       setConvertedImages(images);
+      toast.success(`Successfully converted ${images.length} page(s) to images!`, { id: toastId });
     } catch (err) {
       console.error('PDF Conversion error:', err);
-      setErrorMsg(`Error processing PDF: ${err.message || 'Check if the file is password protected.'}`);
+      const errMsg = `Error processing PDF: ${err.message || 'Check if the file is password protected.'}`;
+      setErrorMsg(errMsg);
+      toast.error(errMsg, { id: toastId });
     } finally {
       setIsProcessing(false);
     }
@@ -172,6 +178,7 @@ const PdfToImageTool = () => {
     convertedImages.forEach(img => {
       downloadImage(img.dataUrl, img.pageNumber, img.extension);
     });
+    toast.success(`${convertedImages.length} image(s) downloaded!`);
   };
 
   const resetSelection = () => {
@@ -183,6 +190,11 @@ const PdfToImageTool = () => {
 
   return (
     <div className="animate-fade-in tool-container">
+      <SEOHead
+        title="PDF to Image Converter - Extract HD Images from PDF Free"
+        description="Convert PDF pages to high-resolution PNG or JPEG images online for free. Extract crisp HD images directly in your browser without uploading to any server."
+        keywords="pdf to image, pdf to jpg, pdf to png, extract images from pdf, convert pdf pages, pdf converter online free"
+      />
       <div>
         <span className="tool-header-badge">
           <Layers size={14} /> High-Definition PDF Converter
