@@ -1,0 +1,115 @@
+.competence-calculator-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  box-shadow: var(--shadow-md);
+}
+
+.calculator-form .input-group {
+  margin-bottom: 1.5rem;
+}
+
+.calculator-form .input-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+.calculator-form .input-group input {
+  width: 100%;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.calculator-form .input-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.calculator-form .input-group input::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+.calculator-form .action-btn {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.calculator-form .action-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+}
+
+.calculator-form .action-btn:active {
+  transform: translateY(0);
+}
+
+.competence-calculator-content .result-card {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--border-color);
+  text-align: center;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.competence-calculator-content .result-card h3 {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.competence-calculator-content .result-percentage {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #34D399, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.competence-calculator-content .result-card.poor .result-percentage {
+  background: linear-gradient(to right, #F87171, #EF4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.competence-calculator-content .result-card.average .result-percentage {
+  background: linear-gradient(to right, #FBBF24, #F59E0B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.competence-calculator-content .result-message {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
