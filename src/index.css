@@ -565,3 +565,181 @@ body {
 ════════════════════════════════════════ */
 @keyframes spin { to { transform: rotate(360deg); } }
 .animate-spin { animation: spin .7s linear infinite; }
+
+/* ════════════════════════════════════════
+   MOBILE SIDEBAR OVERLAY
+════════════════════════════════════════ */
+.sidebar-wrapper {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* Desktop: sidebar always visible */
+@media (min-width: 769px) {
+  .sidebar-wrapper { width: var(--sidebar-w); min-width: var(--sidebar-w); }
+  .hamburger-btn { display: none !important; }
+}
+
+/* Mobile: sidebar as fixed drawer */
+@media (max-width: 768px) {
+  .sidebar-wrapper {
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    z-index: 100;
+    width: var(--sidebar-w);
+    transition: transform .28s cubic-bezier(.4,0,.2,1);
+    transform: translateX(-100%);
+  }
+  .sidebar-wrapper.open  { transform: translateX(0); }
+  .sidebar-wrapper.closed { transform: translateX(-100%); }
+
+  .sidebar { width: var(--sidebar-w); height: 100%; }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 99;
+    backdrop-filter: blur(2px);
+    animation: overlayIn .22s ease;
+  }
+  @keyframes overlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Hamburger button */
+  .hamburger-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all .18s ease;
+  }
+  .hamburger-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — TOPBAR
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 0 14px;
+    height: 60px;
+  }
+  .search-box {
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — CONTENT AREA
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .content-area {
+    padding: 18px 14px 32px;
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — DASHBOARD
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — PAGE TITLE
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .page-title { font-size: 1.25rem; }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — TOOL PAGES
+   Tool pages use inline grid: 1fr 340px
+   We override with a utility class .tool-page-grid
+════════════════════════════════════════ */
+.tool-page-grid {
+  display: grid;
+  gap: 24px;
+}
+.tool-page-grid.has-sidebar {
+  grid-template-columns: 1fr 330px;
+}
+.tool-page-grid.no-sidebar {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 900px) {
+  .tool-page-grid.has-sidebar,
+  .tool-page-grid.no-sidebar {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — SETTINGS PANEL
+════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .settings-panel {
+    position: static !important;
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — UPLOAD ZONE
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .upload-zone {
+    padding: 36px 20px;
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — RESULTS GRID
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — HERO (Dashboard)
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 28px 20px !important;
+    border-radius: 18px !important;
+  }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — TOOL-CARD HOVER (no hover on touch)
+════════════════════════════════════════ */
+@media (hover: none) {
+  .tool-card:hover {
+    transform: none;
+  }
+}

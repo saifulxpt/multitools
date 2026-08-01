@@ -237,7 +237,7 @@ const ImageCompressorTool = () => {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: selectedFile ? '1fr 340px' : '1fr', gap: '32px' }}>
+      <div className={`tool-page-grid ${selectedFile ? 'has-sidebar' : 'no-sidebar'}`}>
         <div>
           {!selectedFile ? (
             <div

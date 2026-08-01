@@ -102,7 +102,7 @@ const Dashboard = ({ searchQuery = '' }) => {
 
       {/* ─── Hero ──────────────────────────────────────── */}
       {!q && (
-        <div style={{
+        <div className="hero-section" style={{
           borderRadius: 24,
           background: 'linear-gradient(135deg, #5b6ef5 0%, #9b6af5 55%, #d966ef 100%)',
           padding: '44px 40px',

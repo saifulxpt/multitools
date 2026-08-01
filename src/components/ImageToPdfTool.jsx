@@ -144,7 +144,7 @@ const ImageToPdfTool = () => {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: images.length > 0 ? '1fr 320px' : '1fr', gap: '32px' }}>
+      <div className={`tool-page-grid ${images.length > 0 ? 'has-sidebar' : 'no-sidebar'}`}>
         <div className="main-tool-area">
           <div 
             className={`upload-zone ${dragActive ? 'drag-active' : ''}`}
